@@ -1,0 +1,39 @@
+#oschar 商城
+###Register API
+POST api/account/registerUser
+```json
+{
+"username":"5h"
+"email":"jojo.wang@sap.com",
+"password":"123456"，
+"role":1 //1为买手,2为送货人,3为客户
+}
+```
+RESPONSE:
+```json
+#success
+{
+    "message": "success",
+    "success": 1
+}
+```
+
+###Login API
+POST api/account/login
+```json
+{
+"username":"5h",
+"email":"jojo.wang@sap.com",
+"password":"123456"
+
+}
+```
+RESPONSE:
+```json
+#success
+{
+    "token": "c596436431740a34e3a53e8bfdeddb40b3fb8ca6",
+    "success":1,
+    "message": "登陆成功"
+}
+```
