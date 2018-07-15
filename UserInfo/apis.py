@@ -10,6 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.authtoken.models import Token
+
+from UserInfo.models import RoleInfo
 from .serializers import UserLoginSerializer, UserCreateSerializer, RoleInfoSerializer
 
 User = get_user_model()
@@ -18,20 +20,17 @@ User = get_user_model()
 @api_view(['POST'])
 def login(request):
     data = request.data
-    token = data.get("token",None)
-    if token is not None:
-        try:
-            token = Token.obejcts.get(token=token)
-            user = token.user
-            return Response(status=status.HTTP_202_ACCEPTED)
-        except:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-    else:
-        serializer = RoleInfoSerializer(data=data)
-        token = serializer.validate(data)
-        return Response(data={"success":1,"token":token,'message':u'登陆成功'}, status=status.HTTP_200_OK)
-
-
+    username = data.get("username",None)
+    password = data.get("password",None)
+    try:
+        user = UserLoginSerializer(data=data)
+        token = user.validate(data)
+        roleInfo = RoleInfo.objects.get(user__username=username)
+        roleInfoSerializer = RoleInfoSerializer(roleInfo)
+        roleInfoData = roleInfoSerializer.data
+        return Response(data={'token':token,'user':roleInfoData,'message':u'登陆成功'},status=status.HTTP_202_ACCEPTED)
+    except:
+        return Response(data={'detail':u"用户不存在",'message':u'登陆失败'},status=status.HTTP_401_UNAUTHORIZED)
 
 
 #
@@ -45,7 +44,9 @@ def createUser(request):
     data = request.data
     serializer = UserCreateSerializer(data=data)
     user = serializer.create(data=data)
-    return Response(data={'success':1,'message':u'success'},status=status.HTTP_200_OK)
+    tokenObject = Token.objects.get(user=user)
+    token = tokenObject.key
+    return Response(data={"token":token,'message':u'success'},status=status.HTTP_200_OK)
 
 
 # def login(request):

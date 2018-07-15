@@ -18,7 +18,7 @@ class RoleInfo(models.Model):
     }
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,verbose_name=u'用户')
-    role = models.IntegerField(choices=ROLE_CHOICES,verbose_name=u'角色')
+    role = models.IntegerField(choices=ROLE_CHOICES,default=1,verbose_name=u'角色')
     app_key = models.CharField(max_length=100,verbose_name=u'app_key',null=True,blank=True)
 
 

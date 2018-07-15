@@ -36,6 +36,8 @@ class UserLoginSerializer(ModelSerializer):
 class RoleInfoSerializer(ModelSerializer):
     class Meta:
         model = RoleInfo
+        fields = '__all__'
+
 
 class UserCreateSerializer(ModelSerializer):
     class Meta:
@@ -44,7 +46,7 @@ class UserCreateSerializer(ModelSerializer):
             'email',
             'password',
             'role',
-            'app_key'
+            # 'app_key'
         ]
     extra_kwargs = {'password':
                         {"write_only": True}
@@ -59,7 +61,7 @@ class UserCreateSerializer(ModelSerializer):
             raise ValidationError("注册邮箱或者密码不能为空")
         else:
             user = User.objects.create_user(username,email,password)
-            roleInfo = RoleInfo(user=user,role=role,app_key=app_key)
+            roleInfo = RoleInfo(user=user,role=role)
             roleInfo = roleInfo.save()
             token = Token.objects.create(user=user)
             return user
