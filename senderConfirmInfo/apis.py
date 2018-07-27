@@ -24,9 +24,9 @@ class ConfirmOrderListView(ListAPIView):
         order = self.request.query_params.get('order', None)
         if status is None:
             queryset = ConfirmOrderInfo.objects.filter(owner=provider)
-        elif status==2:
+        elif int(status)== 2:
             queryset = ConfirmOrderInfo.objects.filter(owner=provider, status__in=[2,4,5])
-        elif status ==3:
+        elif int(status) ==3:
             queryset = ConfirmOrderInfo.objects.filter(owner=provider, status=3)
 
         if order is not None:
