@@ -20,17 +20,17 @@ class ConfirmOrderListView(ListAPIView):
     serializer_class = ConfirmOrderInfoSerializer
 
     def get_queryset(self,provider):
-        status = self.request.GET.get('status', None)
-        order = self.request.GET.get('order', None)
+        status = self.request.query_params.get('status', None)
+        order = self.request.query_params.get('order', None)
         if status is None:
             queryset = ConfirmOrderInfo.objects.filter(owner=provider)
         else:
             queryset = ConfirmOrderInfo.objects.filter(owner=provider, status=status)
         if order is not None:
-            if order == 1:
-                queryset = queryset.order_by('create_date').desc()
-            if order == 2:
-                queryset = queryset.order_by('create_date').asc()
+            if int(order) == 1:
+                queryset = queryset.order_by('create_date')
+            if int(order) == 2:
+                queryset = queryset.order_by('-create_date')
         return queryset
 
     def list(self,request,*args,**kwargs):
