@@ -35,32 +35,32 @@ class ConfirmOrderListView(ListAPIView):
     def list(self,request,*args,**kwargs):
         token = request.GET.get('token', None)
         data = {}
-        # try:
-        tokenVaild = Token.objects.get(key=token)
-        provider = tokenVaild.user
-        productOwner = ProductOwner.objects.get(owner = provider)
-        queryset  = self.filter_queryset(self.get_queryset(productOwner))
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            serializer = self.get_paginated_response(serializer.data)
-            data['pageNumber'] = self.paginator.page.number
-            data['countPage'] = self.paginator.page.paginator.num_pages
-        else:
-            serializer = self.get_serializer(queryset, many=True)
-            data['pageNumber'] = 1
-            data['countPage'] = 1
-            data['confirmOrder'] = serializer.data
-            data['success'] = 'success'
-            data['detail'] = u'成功'
+        try:
+            tokenVaild = Token.objects.get(key=token)
+            provider = tokenVaild.user
+            productOwner = ProductOwner.objects.get(owner = provider)
+            queryset  = self.filter_queryset(self.get_queryset(productOwner))
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                serializer = self.get_paginated_response(serializer.data)
+                data['pageNumber'] = self.paginator.page.number
+                data['countPage'] = self.paginator.page.paginator.num_pages
+            else:
+                serializer = self.get_serializer(queryset, many=True)
+                data['pageNumber'] = 1
+                data['countPage'] = 1
+                data['confirmOrder'] = serializer.data
+                data['success'] = 'success'
+                data['detail'] = u'成功'
+                return Response(data)
+        except Exception as e:
+            traceback.print_exc()
+            data['success'] = 'failed'
+            # del data['results']
+            data['error_code'] = '402'
+            data['detail'] = u'token验证失败'
             return Response(data)
-        # except Exception as e:
-        #     traceback.print_exc()
-        #     data['success'] = 'failed'
-        #     # del data['results']
-        #     data['error_code'] = '402'
-        #     data['detail'] = u'token验证失败'
-        #     return Response(data)
 
 
 @api_view(['POST'])
