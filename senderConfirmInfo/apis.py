@@ -46,6 +46,11 @@ class ConfirmOrderListView(ListAPIView):
                 serializer = self.get_paginated_response(serializer.data)
                 data['pageNumber'] = self.paginator.page.number
                 data['countPage'] = self.paginator.page.paginator.num_pages
+                data['confirmOrder'] = serializer.data
+                data['success'] = 'success'
+                data['detail'] = u'成功'
+                return Response(data)
+
             else:
                 serializer = self.get_serializer(queryset, many=True)
                 data['pageNumber'] = 1
