@@ -41,7 +41,17 @@ class ConfirmOrderListView(ListAPIView):
             provider = tokenVaild.user
             productOwner = ProductOwner.objects.get(owner = provider)
             queryset  = self.filter_queryset(self.get_queryset(productOwner))
-            page = self.paginate_queryset(queryset)
+            try:
+                page = self.paginate_queryset(queryset)
+            except:
+                data['success']=u'成功'
+                data['pageNumber'] = 1
+                data['countPage'] = 1
+                data['confirmOrder'] = []
+                data['success'] = 'success'
+                data['detail'] = u'成功'
+                return Response(data=data)
+
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
                 serializer = self.get_paginated_response(serializer.data)
@@ -50,8 +60,7 @@ class ConfirmOrderListView(ListAPIView):
                 data['confirmOrder'] = serializer.data
                 data['success'] = 'success'
                 data['detail'] = u'成功'
-                return Response(data)
-
+                return Response(data=data)
             else:
                 serializer = self.get_serializer(queryset, many=True)
                 data['pageNumber'] = 1
@@ -59,14 +68,13 @@ class ConfirmOrderListView(ListAPIView):
                 data['confirmOrder'] = serializer.data
                 data['success'] = 'success'
                 data['detail'] = u'成功'
-                return Response(data)
+                return Response(data=data)
         except Exception as e:
-            traceback.print_exc()
             data['success'] = 'failed'
             # del data['results']
             data['error_code'] = '402'
             data['detail'] = u'token验证失败'
-            return Response(data,status=status.HTTP_401_UNAUTHORIZED)
+            return Response(data=data,status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['POST'])
