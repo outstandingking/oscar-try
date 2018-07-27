@@ -28,6 +28,8 @@ class ConfirmOrderListView(ListAPIView):
             queryset = ConfirmOrderInfo.objects.filter(owner=provider, status__in=[2,4,5])
         elif int(status) ==3:
             queryset = ConfirmOrderInfo.objects.filter(owner=provider, status=3)
+        elif int(status) ==1:
+            queryset = ConfirmOrderInfo.objects.filter(owner=provider, status=1)
 
         if order is not None:
             if int(order) == 1:
