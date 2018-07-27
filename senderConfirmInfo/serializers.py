@@ -20,9 +20,12 @@ class confirmOrderRelathionshipSerializer(ModelSerializer):
 
 class statusSerializer(serializers.Field):
     value_map = {
-                    "1": u'客户已下单,待采购员确认',
+            "0": u'采购员取消',
+            "1": u'客户已下单,待采购员确认',
             "2": u'采购员,已确认，等待客户付款',
-            "3":u'客户付款成功，采购员开始采购'}
+            "3":u'客户付款成功，采购员开始采购',
+            "4":u'采购员已发货',
+             "5":u'订单完成' }
 
     def to_representation(self, value):
         return self.value_map[str(value)]
