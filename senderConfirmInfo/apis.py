@@ -2,6 +2,7 @@
 import exceptions
 import traceback
 
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.mixins import UpdateModelMixin
 
@@ -65,7 +66,7 @@ class ConfirmOrderListView(ListAPIView):
             # del data['results']
             data['error_code'] = '402'
             data['detail'] = u'token验证失败'
-            return Response(data)
+            return Response(data,status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['POST'])
