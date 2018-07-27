@@ -27,10 +27,8 @@ class statusSerializer(serializers.Field):
             "4":u'客户付款成功，采购员开始采购',
             "5":u'采购员已发货',
     }
-
     def to_representation(self, value):
         return self.value_map[str(value)]
-
     def to_internal_value(self, data):
         return data
 
@@ -41,6 +39,7 @@ class ConfirmOrderInfoSerializer(ModelSerializer):
     buyer = serializers.StringRelatedField()
     products = serializers.SerializerMethodField()
     status = statusSerializer()
+    status_id = serializers.SerializerMethodField()
     class Meta:
         model = ConfirmOrderInfo
         fields = '__all__'
@@ -50,8 +49,7 @@ class ConfirmOrderInfoSerializer(ModelSerializer):
         products = Product.objects.filter(confirmOrderRelathionship__in=confirmProductRelathionships)
         serializer = SimpleProductInfoSerializer(products, many=True, context=self.context)
         return serializer.data
-    #
-    # def get_status(self,obj):
-    #     return obj.get_status_display()
-    #
+
+    def get_status_id(self,obj):
+        return obj.status
 

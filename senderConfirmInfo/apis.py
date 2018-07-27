@@ -24,8 +24,11 @@ class ConfirmOrderListView(ListAPIView):
         order = self.request.query_params.get('order', None)
         if status is None:
             queryset = ConfirmOrderInfo.objects.filter(owner=provider)
-        else:
-            queryset = ConfirmOrderInfo.objects.filter(owner=provider, status=status)
+        elif status==2:
+            queryset = ConfirmOrderInfo.objects.filter(owner=provider, status__in=[2,4,5])
+        elif status ==3:
+            queryset = ConfirmOrderInfo.objects.filter(owner=provider, status=3)
+
         if order is not None:
             if int(order) == 1:
                 queryset = queryset.order_by('create_date')
