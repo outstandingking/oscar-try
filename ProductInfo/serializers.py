@@ -55,7 +55,8 @@ class SubProdcutsSerializer(ModelSerializer):
                  'fullPrice',
                  'categories',
                  'has_stockrecords',
-                 'num_stockrecords'
+                 'num_stockrecords',
+                 'unit_description'
         )
 
     def get_fullPrice(self,product):
@@ -70,7 +71,6 @@ class SubProdcutsSerializer(ModelSerializer):
 
 class ProdcutsSerializer(ModelSerializer):
     fullPrice = serializers.SerializerMethodField()
-    attributes = serializers.StringRelatedField(many=True)
     children = SubProdcutsSerializer(many=True)
     has_stockrecords = serializers.SerializerMethodField()
     num_stockrecords = serializers.SerializerMethodField()
@@ -94,7 +94,8 @@ class ProdcutsSerializer(ModelSerializer):
                  'categories',
                  'has_stockrecords',
                  'num_stockrecords',
-                 'primary_image'
+                 'primary_image',
+                 'unit_description'
                 )
 
     def get_fullPrice(self,product):
@@ -145,18 +146,14 @@ class SimpleProductInfoSerializer(ModelSerializer):
                   'fullPrice',
                   'has_stockrecords',
                   'num_stockrecords',
-                  'primary_image'
+                  'primary_image',
+                  'unit_description'
                   )
 
     def get_fullPrice(self, product):
         request = self.context.get('request')
-        if product.structure == 'child':
-            try:
-                fullPrice = StockRecord.objects.get(product_id=product.id).price_excl_tax
-                return fullPrice
-            except:
-                pass
-
+        fullPrice = StockRecord.objects.get(product_id=product.id).price_excl_tax
+        return str(fullPrice)
 
 class ProductCreateSerializer(ModelSerializer):
     images = ProductImageCreateSerializer(read_only=True,many=True,required=False)

@@ -55,7 +55,10 @@ MEDIA_ROOT = 'media'
 THUMBNAIL_DEBUG=True
 DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuMediaStorage'
 
+REST_FRAMEWORK = {
 
+    'DATETIME_FORMAT': "%m/%d/%Y %H:%M:%S",
+}
 # Application definition
 
 INSTALLED_APPS = [
@@ -98,16 +101,6 @@ AUTHENTICATION_BACKENDS = (
     # 'rest_framework.permissions.IsAuthenticated',
 #
 )
-#
-REST_FRAMEWORK = {
-#     # Use Django's standard `django.contrib.auth` permissions,
-#     # or allow read-only access for unauthenticated users.
-#     'DEFAULT_PERMISSION_CLASSES': [
-# #         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-#         'rest_framework.authentication.BasicAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-# ]
-}
 
 ROOT_URLCONF = 'frobshop.urls'
 

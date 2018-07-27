@@ -19,7 +19,7 @@ class ConfirmOrderInfo(models.Model):
     buyer_phone = models.BigIntegerField(null=True,verbose_name=u'手机号')
     basket = models.ForeignKey('basket.Basket',verbose_name =u'关联购物车信息',related_name='confirmOrderInfo')
     status = models.IntegerField(choices=CONFIRM_ORDER_CHOICES,verbose_name=u'状态')
-    server_money = models.FloatField(verbose_name=u'服务费')
+    server_money = models.FloatField(verbose_name=u'服务费',null=True)
     total_money = models.FloatField(verbose_name=u'总价')
     message = models.CharField(max_length=255,verbose_name=u'买家留言')
     confirm_Id = models.CharField(max_length=255,verbose_name=u'订单号')
