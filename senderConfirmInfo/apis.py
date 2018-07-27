@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
 import exceptions
+import traceback
+
 from rest_framework.decorators import api_view
 from rest_framework.mixins import UpdateModelMixin
 
@@ -53,6 +55,7 @@ class ConfirmOrderListView(ListAPIView):
                 data['detail'] = u'成功'
                 return Response(data)
         except Exception as e:
+            traceback.print_exc()
             data['success'] = 'failed'
             # del data['results']
             data['error_code'] = '402'
@@ -82,6 +85,7 @@ def sendConfirmInfo(request):
         data['detail'] = u'成功'
         return Response(data)
     except:
+        traceback.print_exc()
         return Response(data={"detail:error"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
@@ -104,6 +108,7 @@ class ConfirmInfoUpdateView(GenericAPIView, UpdateModelMixin):
             data['data'] = result.data
             return Response(data=data)
         except:
+            traceback.print_exc()
             data['success'] = 'failed'
             # del data['results']
             data['error_code'] = '402'
