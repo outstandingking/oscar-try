@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/account/', include('UserInfo.urls')),
     url(r'^api/product/', include('ProductInfo.urls')),
-    url(r'^api/confirmInfo/',include('senderConfirmInfo.urls'))
+    url(r'^api/confirmInfo/',include('senderConfirmInfo.urls')),
 
 ]
+

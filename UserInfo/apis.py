@@ -10,6 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.authtoken.models import Token
+from qiniu import Auth, put_file, etag
+import qiniu.config
 
 from UserInfo.models import RoleInfo
 from .serializers import UserLoginSerializer, UserCreateSerializer, RoleInfoSerializer
@@ -50,6 +52,24 @@ def createUser(request):
 
 
 # def login(request):
+
+
+@api_view(['POST'])
+def qiniuToken(request):
+    data = request.data
+    filename = data.get('filename',None)
+    result = {}
+    access_key = '-4_KxRQslAjfSYpEaCkbFXAd792TINkUFzUCHOdE'
+    secret_key = '3Ehh1CN2PIEXNSeivFevSLBE3PzO3evo_UwdOckc'
+    # 构建鉴权对象
+    q = Auth(access_key, secret_key)
+    # 要上传的空间
+    bucket_name = 'oscar'
+    token = q.upload_token(bucket_name, filename, 3600)
+
+    result['token'] = token
+    result['file'] = filename
+    return Response(data=result, status=status.HTTP_200_OK)
 
 
 
