@@ -60,7 +60,6 @@ class SubProdcutsSerializer(ModelSerializer):
         )
 
     def get_fullPrice(self,product):
-        request = self.context.get('request')
         Product.objects.get(pk=product.id)
         try:
             fullPrice=StockRecord.objects.get(product_id=product.id).price_excl_tax
@@ -99,7 +98,6 @@ class ProdcutsSerializer(ModelSerializer):
                 )
 
     def get_fullPrice(self,product):
-        request = self.context.get('request')
         if product.structure == 'child':
             try:
                 fullPrice=StockRecord.objects.get(product_id=product.id).price_excl_tax
@@ -151,7 +149,6 @@ class SimpleProductInfoSerializer(ModelSerializer):
                   )
 
     def get_fullPrice(self, product):
-        request = self.context.get('request')
         fullPrice = StockRecord.objects.get(product_id=product.id).price_excl_tax
         return str(fullPrice)
 

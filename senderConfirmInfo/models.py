@@ -16,7 +16,6 @@ class ConfirmOrderInfo(models.Model):
         (4, u'客户付款成功，采购员开始采购'),
         (5, u'采购员已发货')
 
-
     }
     owner = models.ForeignKey(ProductOwner, verbose_name=u'供应商', related_name='confirmOrderInfo')
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'买手', related_name ='confirmOrderInfo')
