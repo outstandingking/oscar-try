@@ -182,7 +182,10 @@ class ProductCreateSerializer(ModelSerializer):
         except:
             provider = self._kwargs['data'].pop('provider')
             providerName = '%s_%s' % (provider, productOwner)
-            partner = Partner.objects.create(name=providerName, user=productOwner)
+
+            partner = Partner.objects.create(name=unicode(providerName))
+            partner.users = [productOwner.pk,]
+            partner.save()
 
         if validated_data['structure'] == 'parent':
             subProducts =  self._kwargs['data'].pop('children')
@@ -191,12 +194,16 @@ class ProductCreateSerializer(ModelSerializer):
         partner_sku = '%s%s%s' % (productOwner, product.title,product.id)
         StockRecord.objects.create(product=product, partner=partner, partner_sku=partner_sku,price_retail=price,
                                    num_in_stock=stockNumber)
-        ProductOwner.create(product=product,owner=productOwner)
+        ProductOwner.objects.create(product=product,owner=productOwner)
 
         for image_data in images_data:
             image_data['product'] = product
             imageUrl = image_data.pop('image_url')
-            ProductImage.objects.create(**image_data)
+            if imageUrl:
+                productImage = ProductImage()
+                productImage.original.name = imageUrl
+                productImage.save()
+
             # ProductImagesUrl.objects.create(image_url=imageUrl)
 
         if subProducts is not None:

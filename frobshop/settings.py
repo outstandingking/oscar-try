@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import sys
 from oscar.defaults import *
 from oscar import get_core_apps
 
@@ -32,6 +33,9 @@ SECRET_KEY = 'fc+*f%-2uv4f*)b-&_70qtb*)pi#537ept72@t2392(e506y5f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+reload(sys)
+sys.setdefaultencoding('UTF8')
+
 ALLOWED_HOSTS = [
     '0.0.0.0',
     '127.0.0.1',
@@ -40,10 +44,10 @@ ALLOWED_HOSTS = [
 ]
 
 
-QINIU_ACCESS_KEY = '-4_KxRQslAjfSYpEaCkbFXAd792TINkUFzUCHOdE'
-QINIU_SECRET_KEY = '3Ehh1CN2PIEXNSeivFevSLBE3PzO3evo_UwdOckc'
-QINIU_BUCKET_NAME = 'oscar'
-QINIU_BUCKET_DOMAIN = 'ox8265im3.bkt.clouddn.com/'
+QINIU_ACCESS_KEY = '8Z2OZ-sHyK5W22Nm-nUlsLgonJnOE9iKWue4i3CX'
+QINIU_SECRET_KEY = 'LnWzZ7HFosZAOH6VMbCjEgyRHFP4tgZctftC5eXM'
+QINIU_BUCKET_NAME = 'piggancat'
+QINIU_BUCKET_DOMAIN = 'ot4mfs83x.bkt.clouddn.com/'
 QINIU_SECURE_URL = False      #使用http
 
 

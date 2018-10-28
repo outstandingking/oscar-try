@@ -21,4 +21,6 @@ class RoleInfo(models.Model):
     role = models.IntegerField(choices=ROLE_CHOICES,default=1,verbose_name=u'角色')
     app_key = models.CharField(max_length=100,verbose_name=u'app_key',null=True,blank=True)
 
+    def __unicode__(self):
+        return u'username:{0},user role: {1}'.format(self.user.username,self.role)
 
