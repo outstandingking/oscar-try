@@ -20,7 +20,7 @@ class ProductListView(ListAPIView):
         queryset = Product.objects.filter(pk__in=products)
         return queryset
     def list(self,request,*args,**kwargs):
-        token = request.GET.get('token',None)
+        token = request.GET.get('token', None)
         data = {}
         try:
            tokenVaild = Token.objects.get(key=token)
@@ -69,7 +69,7 @@ class ProductCreateView(CreateAPIView):
        self.perform_create(serializer)
        headers = self.get_success_headers(serializer.data)
 
-       return Response({'message': '成功创建商品'}, status=status.HTTP_201_CREATED, headers=headers)
+       return Response({'message': '成功创建商品','data':serializer.data}, status=status.HTTP_201_CREATED, headers=headers)
 
 
 

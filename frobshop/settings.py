@@ -47,7 +47,7 @@ ALLOWED_HOSTS = [
 QINIU_ACCESS_KEY = '8Z2OZ-sHyK5W22Nm-nUlsLgonJnOE9iKWue4i3CX'
 QINIU_SECRET_KEY = 'LnWzZ7HFosZAOH6VMbCjEgyRHFP4tgZctftC5eXM'
 QINIU_BUCKET_NAME = 'piggancat'
-QINIU_BUCKET_DOMAIN = 'ot4mfs83x.bkt.clouddn.com/'
+QINIU_BUCKET_DOMAIN = 'cdn.lingnanshanxian.shop/'
 QINIU_SECURE_URL = False      #使用http
 
 

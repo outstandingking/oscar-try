@@ -57,14 +57,14 @@ def createUser(request):
 @api_view(['POST'])
 def qiniuToken(request):
     data = request.data
-    filename = data.get('filename',None)
+    filename = data.get('filename', None)
     result = {}
-    access_key = '-4_KxRQslAjfSYpEaCkbFXAd792TINkUFzUCHOdE'
-    secret_key = '3Ehh1CN2PIEXNSeivFevSLBE3PzO3evo_UwdOckc'
+    access_key = '8Z2OZ-sHyK5W22Nm-nUlsLgonJnOE9iKWue4i3CX'
+    secret_key = 'LnWzZ7HFosZAOH6VMbCjEgyRHFP4tgZctftC5eXM'
     # 构建鉴权对象
     q = Auth(access_key, secret_key)
     # 要上传的空间
-    bucket_name = 'oscar'
+    bucket_name = 'piggancat'
     token = q.upload_token(bucket_name, filename, 3600)
 
     result['token'] = token
@@ -73,3 +73,11 @@ def qiniuToken(request):
 
 
 
+
+@api_view(['POST'])
+def test_qiniu_upload(request):
+    data = request.data
+    token = data.get('token',None)
+    file = '/Users/jojo/project/private-project/private-project/frobshop/media/image_not_found.jpg'
+    ret, info = put_file(token, 'image_not_found.jpg', file)
+    print (info)
